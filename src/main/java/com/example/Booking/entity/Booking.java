@@ -4,6 +4,7 @@ package com.example.Booking.entity;
 import javax.annotation.Nonnull;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ public class Booking {
     private LocalDateTime toDate;
     private String aadharNumber;
     private int numOfRooms;
-    private List<String> roomNumbers;
+    private String roomNumbers;
     @Column(nullable = false)
     private int roomPrice;
     @Column(columnDefinition = "Decimal(30) default '0'")
@@ -81,11 +82,21 @@ public class Booking {
     }
 
     public List<String> getRoomNumbers() {
-        return roomNumbers;
+        List<String> roomNumber=new ArrayList<>();
+        String[] rooms = roomNumbers.split(",");
+        for(String room:rooms){
+            roomNumber.add(room);
+        }
+
+          return roomNumber;
     }
 
     public void setRoomNumbers(List<String> roomNumbers) {
-        this.roomNumbers = roomNumbers;
+        String roomNumber="";
+            for(String room:roomNumbers){
+                roomNumber += room+",";
+            }
+            this.roomNumbers = roomNumber.substring(0,roomNumber.length()-2);
     }
 
     public int getRoomPrice() {
@@ -118,7 +129,11 @@ public class Booking {
         this.toDate = toDate;
         this.aadharNumber = aadharNumber;
         this.numOfRooms = numOfRooms;
-        this.roomNumbers = roomNumbers;
+        String roomNumber="";
+        for(String room:roomNumbers){
+            roomNumber += room+",";
+        }
+        this.roomNumbers = roomNumber.substring(0,roomNumber.length()-2);
         this.roomPrice = roomPrice;
         this.transactionId = transactionId;
         this.bookedOn = bookedOn;
